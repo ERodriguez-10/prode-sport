@@ -1,15 +1,18 @@
-import express, { Express, Request, Response, Application } from "express";
-import dotenv from "dotenv";
-import matchRouter from "./api/routes/match.routes";
+const PORT = process.env.PORT || 8000;
 
-//For env File
-dotenv.config();
+import httpServer from "./api/configs/server/http.config";
+import connectDB from "./database/connectDB";
 
-const app: Application = express();
-const port = process.env.PORT || 8000;
+const initializeServer = async () => {
+  try {
+    await connectDB();
 
-app.use("/api", matchRouter);
+    httpServer.listen(PORT, () => {
+      console.log(`[Server]: Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.log(`[ERROR] Server has an error ` + error);
+  }
+};
 
-app.listen(port, () => {
-  console.log(`Server is Fire at http://localhost:${port}`);
-});
+initializeServer();

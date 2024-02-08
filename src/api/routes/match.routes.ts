@@ -1,6 +1,8 @@
 import { Request, Response, Router } from "express";
 import * as league from "../../../league.json";
 import * as fixture from "../../../fixture.json";
+import * as livescore from "../../../livescore.json";
+import * as standings from "../../../standings.json";
 
 const matchRouter = Router();
 
@@ -48,6 +50,80 @@ matchRouter.get("/fixture", async (req: Request, res: Response) => {
   });
 
   res.json({ data: fixtureLeague });
+});
+
+matchRouter.get("/livescore", async (req: Request, res: Response) => {
+  const livescoreMatch: Object[] = [];
+
+  livescore.data.response.map((l) => {
+    livescoreMatch.push({
+      idMatch: l.fixture.id,
+      status: l.fixture.status.short,
+      homeTeam: {
+        goals: l.goals.home,
+        winner: l.teams.home.winner,
+      },
+      awayTeam: {
+        goals: l.goals.away,
+        winner: l.teams.away.winner,
+      },
+    });
+  });
+
+  res.json({ data: livescoreMatch });
+});
+
+matchRouter.get("/standings", async (req: Request, res: Response) => {
+  const standingsTableA: Object[] = [];
+  const standingsTableB: Object[] = [];
+
+  standings.response[0].league.standings[0].map((s) => {
+    standingsTableA.push({
+      group: s.rank,
+      teamId: s.team.id,
+      teamName: s.team.name,
+      teamLogo: s.team.logo,
+      points: s.points,
+      goalsDiff: s.goalsDiff,
+      form: s.form,
+      status: s.status,
+      all: {
+        played: s.all.played,
+        win: s.all.win,
+        draw: s.all.draw,
+        lose: s.all.lose,
+        goals: {
+          for: s.all.goals.for,
+          agains: s.all.goals.against,
+        },
+      },
+    });
+  });
+
+  standings.response[0].league.standings[1].map((s) => {
+    standingsTableB.push({
+      group: s.rank,
+      teamId: s.team.id,
+      teamName: s.team.name,
+      teamLogo: s.team.logo,
+      points: s.points,
+      goalsDiff: s.goalsDiff,
+      form: s.form,
+      status: s.status,
+      all: {
+        played: s.all.played,
+        win: s.all.win,
+        draw: s.all.draw,
+        lose: s.all.lose,
+        goals: {
+          for: s.all.goals.for,
+          agains: s.all.goals.against,
+        },
+      },
+    });
+  });
+
+  res.json({ dataA: standingsTableA, dataB: standingsTableB });
 });
 
 export default matchRouter;
