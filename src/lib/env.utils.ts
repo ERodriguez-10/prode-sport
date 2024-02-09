@@ -8,8 +8,8 @@ export function getOsEnv(key: string): string {
   return process.env[key] as string;
 }
 
-export function getOsEnvOptional(key: string): string | undefined {
-  return process.env[key];
+export function getOsEnvOptional(key: string): string {
+  return process.env[key] as string;
 }
 
 export function toNumber(value: string): number {
