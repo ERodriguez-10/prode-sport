@@ -1,7 +1,7 @@
 {
   "name": "prode-sport",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend repository for ProdeSport build with Express and Typescript.",
   "main": "index.ts",
   "scripts": {
     "build": "npx tsc",
