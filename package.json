@@ -10,7 +10,11 @@
   },
   "keywords": [
     "Node",
-    "Express"
+    "Express",
+    "Typescript",
+    "ProdeSport",
+    "Backend",
+    "Auth"
   ],
   "author": "",
   "license": "ISC",
